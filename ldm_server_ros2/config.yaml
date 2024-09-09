@@ -1,0 +1,20 @@
+lift_info:
+  name: "LIFT-TP2"
+  ip: "192.168.1.1"
+  port: 8000
+  port_lift_state: 8001
+  time_out: 10.0
+  frequency: 5.0
+  register:
+    door_control: 'D310'
+    destination_floor: 'D311'
+    request_type: 'D312'
+    lift_data: 'D300'
+  bit:
+    door_trigger: 'M318'
+    lift_trigger: 'M319'
+
+  floors:
+    L1: 1
+    L2: 2
+    L3: 3

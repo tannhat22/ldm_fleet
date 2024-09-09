@@ -1,0 +1,23 @@
+<?xml version='1.0' ?>
+
+<launch>
+
+  <node pkg="lift_fleet_server_ros2"
+      exec="lift_fleet_server_ros2"
+      name="fake_server_node"
+      output="both">
+
+    <!-- ros topic -->
+    <param name="fleet_state_topic" value="fleet_ldm_state"/>
+    <param name="lift_request_topic" value="lift_ldm_request"/>
+    <!-- dds topic -->
+    <param name="dds_domain" value="52"/>
+    <param name="dds_lift_state_topic" value="lift_state"/>
+    <param name="dds_lift_request_topic" value="lift_request"/>
+    <param name="update_state_frequency" value="5.0"/>
+    <param name="publish_state_frequency" value="1.0"/>
+
+  </node>
+
+</launch>
+

@@ -1,0 +1,44 @@
+module LdmFleetData
+{
+  module LiftRequest_Constants
+  {
+    const unsigned long REQUEST_END_SESSION = 0;
+    const unsigned long REQUEST_AGV_MODE = 1;
+    const unsigned long REQUEST_HUMAN_MODE = 2;
+    const unsigned long DOOR_CLOSED = 0;
+    const unsigned long DOOR_OPEN = 2;
+  };
+  module LiftState_Constants
+  {
+    const unsigned long DOOR_CLOSED = 0;
+    const unsigned long DOOR_MOVING = 1;
+    const unsigned long DOOR_OPEN = 2;
+    const unsigned long MOTION_STOPPED = 0;
+    const unsigned long MOTION_UP = 1;
+    const unsigned long MOTION_DOWN = 2;
+    const unsigned long MOTION_UNKNOWN = 3;
+    const unsigned long MODE_UNKNOWN = 0;
+    const unsigned long MODE_HUMAN = 1;
+    const unsigned long MODE_AGV = 2;
+    const unsigned long MODE_FIRE = 3;
+    const unsigned long MODE_OFFLINE = 4;
+    const unsigned long MODE_EMERGENCY = 5;
+  };
+  struct LiftRequest
+  {
+    string request_id;
+    string lift_name;
+    unsigned long request_type;
+    string destination_floor;
+    unsigned long door_state;
+  };
+  struct LiftState
+  {
+    string lift_name;
+    string current_floor;
+    unsigned long door_state;
+    unsigned long motion_state;
+    unsigned long current_mode;
+    string request_id;
+  };
+};

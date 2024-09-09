@@ -1,0 +1,13 @@
+uint8 request_types
+uint8 REQUEST_END_SESSION=0
+uint8 REQUEST_AGV_MODE=1
+uint8 REQUEST_HUMAN_MODE=2
+
+string destination_floor
+
+uint8 door_state
+uint8 DOOR_CLOSED=0
+uint8 DOOR_OPEN=2
+---
+bool success
+string message
