@@ -3,7 +3,7 @@ lift_info:
   ip: "192.168.1.250"
   port: 8000
   port_lift_state: 8001
-  time_out: 10.0
+  time_out: 120.0
   frequency: 5.0
   register:
     door_control: 'D310'

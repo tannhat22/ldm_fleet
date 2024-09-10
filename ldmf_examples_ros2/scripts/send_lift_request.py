@@ -36,7 +36,7 @@ def main(argv=sys.argv):
     default_request_id = "576y13ewgyffeijuais"
     default_lift_name = "LIFT-TP2"
     default_request_type = "agv"
-    default_destination_floor = "L1"
+    default_destination_floor = "L2"
     default_door_state = "closed"
     default_topic_name = "/lift_ldm_request"
 

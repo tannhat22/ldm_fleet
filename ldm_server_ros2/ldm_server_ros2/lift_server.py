@@ -72,7 +72,7 @@ class LiftService(Node):
                 f"Get request LIFT:\n"
                 f"  request_types: {request.request_types}\n"
                 f"  des_floor: {request.destination_floor}\n"
-                f"  door_state: {request.door_state}\n"
+                f"  door_state: {request.door_state}"
             )
             try:
                 numFloor = self.config_yaml["floors"][request.destination_floor]
@@ -122,7 +122,7 @@ class LiftService(Node):
                 door_control = 2
 
             if door_control != 0:
-                self.pyPLC.batchwrite_wordunits(self.door_control_reg, door_control)
+                self.pyPLC.batchwrite_wordunits(self.door_control_reg, [door_control])
                 self.pyPLC.batchwrite_bitunits(self.door_trigger_bit, [1])
                 process_state = 1
                 startTime = self.get_clock().now()
@@ -140,12 +140,13 @@ class LiftService(Node):
                         return response
                     time.sleep(0.5)
                     continue
-
+            self.get_logger().info(f"Request client is done!")
             response.success = True
             response.message = "Process success!"
             return response
 
-        except:
+        except Exception as e:
+            self.get_logger().error(e)
             response.success = False
             response.message = "error undefined!"
             return response

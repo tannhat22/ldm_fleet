@@ -47,8 +47,8 @@ def generate_launch_description():
                     {
                         "lift_name": "LIFT-TP2",
                         "lift_state_topic": "/lift_state",
-                        "lift_trigger_server_name": "",
-                        "dds_domain": 52,
+                        "lift_trigger_server_name": "/lift_server",
+                        "dds_domain": 82,
                         "dds_state_topic": "lift_state",
                         "dds_lift_request_topic": "lift_request",
                         "update_frequency": 5.0,
