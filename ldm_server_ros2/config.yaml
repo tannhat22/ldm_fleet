@@ -1,6 +1,6 @@
 lift_info:
   name: "LIFT-TP2"
-  ip: "192.168.1.1"
+  ip: "192.168.1.250"
   port: 8000
   port_lift_state: 8001
   time_out: 10.0
