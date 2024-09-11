@@ -28,6 +28,7 @@ void ClientConfig::print_config() const
   printf("  TOPICS\n");
   printf("    lift state: %s\n", dds_state_topic.c_str());
   printf("    lift request: %s\n", dds_lift_request_topic.c_str());
+  printf("    register request: %s\n", dds_register_request_topic.c_str());
 }
 
 } // namespace ldm_fleet

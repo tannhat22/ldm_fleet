@@ -45,8 +45,9 @@ def generate_launch_description():
                 respawn=True,
                 parameters=[
                     {
-                        "lift_name": "LIFT-TP2",
+                        "lift_name": "LIFT-001",
                         "lift_state_topic": "/lift_state",
+                        "register_lift_topic": "/register_lift",
                         "lift_trigger_server_name": "/lift_server",
                         "dds_domain": 82,
                         "dds_state_topic": "lift_state",

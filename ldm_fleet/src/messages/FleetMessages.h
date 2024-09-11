@@ -35,6 +35,12 @@ extern "C" {
 #define LdmFleetData_LiftState_Constants_MODE_FIRE 3
 #define LdmFleetData_LiftState_Constants_MODE_OFFLINE 4
 #define LdmFleetData_LiftState_Constants_MODE_EMERGENCY 5
+#define LdmFleetData_LiftState_Constants_REGISTER_RELEASED 0
+#define LdmFleetData_LiftState_Constants_REGISTER_SIGNED 1
+#define LdmFleetData_RegisterRequest_Constants_DEVICE_DOOR 0
+#define LdmFleetData_RegisterRequest_Constants_DEVICE_LIFT 1
+#define LdmFleetData_RegisterRequest_Constants_REGISTER_RELEASED 0
+#define LdmFleetData_RegisterRequest_Constants_REGISTER_SIGNED 1
 
 
 typedef struct LdmFleetData_LiftRequest
@@ -62,6 +68,7 @@ typedef struct LdmFleetData_LiftState
   uint32_t door_state;
   uint32_t motion_state;
   uint32_t current_mode;
+  uint32_t register_state;
   char * request_id;
 } LdmFleetData_LiftState;
 
@@ -72,6 +79,23 @@ extern const dds_topic_descriptor_t LdmFleetData_LiftState_desc;
 
 #define LdmFleetData_LiftState_free(d,o) \
 dds_sample_free ((d), &LdmFleetData_LiftState_desc, (o))
+
+
+typedef struct LdmFleetData_RegisterRequest
+{
+  char * request_id;
+  char * device_name;
+  uint32_t device_type;
+  uint32_t register_mode;
+} LdmFleetData_RegisterRequest;
+
+extern const dds_topic_descriptor_t LdmFleetData_RegisterRequest_desc;
+
+#define LdmFleetData_RegisterRequest__alloc() \
+((LdmFleetData_RegisterRequest*) dds_alloc (sizeof (LdmFleetData_RegisterRequest)));
+
+#define LdmFleetData_RegisterRequest_free(d,o) \
+dds_sample_free ((d), &LdmFleetData_RegisterRequest_desc, (o))
 
 #ifdef __cplusplus
 }

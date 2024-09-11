@@ -15,8 +15,8 @@
  *
  */
 
-#ifndef LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LDMSTATE_HPP
-#define LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LDMSTATE_HPP
+#ifndef LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LIFTSTATE_HPP
+#define LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LIFTSTATE_HPP
 
 #include <string>
 #include <vector>
@@ -48,6 +48,10 @@ struct LiftState
   static const uint32_t MODE_OFFLINE = 4;
   static const uint32_t MODE_EMERGENCY = 5;
 
+  uint32_t register_state;
+  static const uint32_t REGISTER_RELEASED = 0;
+  static const uint32_t REGISTER_SIGNED = 1;
+
   std::string request_id;
 
 };
@@ -55,4 +59,4 @@ struct LiftState
 } // namespace messages
 } // namespace ldm_fleet
 
-#endif // LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LDMSTATE_HPP
+#endif // LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LIFTSTATE_HPP

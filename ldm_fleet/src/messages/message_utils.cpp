@@ -51,6 +51,7 @@ void convert(const LiftState& _input, LdmFleetData_LiftState& _output)
   _output.door_state = _input.door_state;
   _output.motion_state = _input.motion_state;
   _output.current_mode = _input.current_mode;
+  _output.register_state = _input.register_state;
   _output.request_id = common::dds_string_alloc_and_copy(_input.request_id);
 }
 
@@ -61,7 +62,26 @@ void convert(const LdmFleetData_LiftState& _input, LiftState& _output)
   _output.door_state = _input.door_state;
   _output.motion_state = _input.motion_state;
   _output.current_mode = _input.current_mode;
+  _output.register_state = _input.register_state;
   _output.request_id = std::string(_input.request_id);
+}
+
+void convert(const RegisterRequest& _input, LdmFleetData_RegisterRequest& _output)
+{
+  _output.request_id = common::dds_string_alloc_and_copy(_input.request_id);
+  _output.device_name = common::dds_string_alloc_and_copy(_input.device_name);
+  _output.device_type = _input.device_type;
+  _output.register_mode = _input.register_mode;
+
+}
+
+void convert(const LdmFleetData_RegisterRequest& _input, RegisterRequest& _output)
+{
+  _output.request_id =  std::string(_input.request_id);
+  _output.device_name = std::string(_input.device_name);
+  _output.device_type = _input.device_type;
+  _output.register_mode = _input.register_mode;
+
 }
 
 } // namespace messages

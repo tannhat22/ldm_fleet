@@ -25,7 +25,7 @@ from ldm_fleet_msgs.msg import LiftRequest
 
 def main(argv=sys.argv):
     """
-    Example charge request:
+    Example lift request:
     - request_id: 6tyghb4edujrefyd
     - lift_name: magni123
     - request_type: agv
@@ -34,11 +34,11 @@ def main(argv=sys.argv):
     """
 
     default_request_id = "576y13ewgyffeijuais"
-    default_lift_name = "LIFT-TP2"
+    default_lift_name = "LIFT-001"
     default_request_type = "agv"
     default_destination_floor = "L2"
     default_door_state = "closed"
-    default_topic_name = "/lift_ldm_request"
+    default_topic_name = "/lift_ldm_requests"
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", "--lift-name", default=default_lift_name)

@@ -19,14 +19,16 @@
   </node>
 
   <node pkg="ldm_fleet_client_ros2" exec="ldm_fleet_client_ros2" name="fake_client_node" output="both">
-    <param name="lift_name" value="LIFT-TP2"/>
+    <param name="lift_name" value="LIFT-001"/>
     <!-- ros topic -->
     <param name="lift_state_topic" value="/lift_state"/>
+    <param name="register_lift_topic" value="/register_lift"/>
     <param name="lift_trigger_server_name" value="/lift_server"/>
     <!-- dds topic -->
     <param name="dds_domain" value="52"/>
     <param name="dds_state_topic" value="lift_state"/>
     <param name="dds_lift_request_topic" value="lift_request"/>
+    <param name="dds_register_request_topic" value="register_request"/>
     <param name="update_frequency" value="5.0"/>
     <param name="publish_frequency" value="1.0"/>
   </node>

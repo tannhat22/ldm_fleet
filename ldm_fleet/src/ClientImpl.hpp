@@ -20,6 +20,7 @@
 
 #include <ldm_fleet/messages/LiftRequest.hpp>
 #include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 #include <ldm_fleet/Client.hpp>
 #include <ldm_fleet/ClientConfig.hpp>
 
@@ -49,6 +50,10 @@ public:
     /// DDS subscriber for lift requests coming from the server
     dds::DDSSubscribeHandler<LdmFleetData_LiftRequest>::SharedPtr 
         lift_request_sub;
+
+    /// DDS subscriber for register requests coming from the server
+    dds::DDSSubscribeHandler<LdmFleetData_RegisterRequest>::SharedPtr 
+        register_request_sub;
   };
 
   ClientImpl(const ClientConfig& config);
@@ -60,6 +65,8 @@ public:
   bool send_lift_state(const messages::LiftState& new_lift_state);
 
   bool read_lift_request(messages::LiftRequest& lift_request);
+
+  bool read_register_request(messages::RegisterRequest& register_request);
 
 private:
 

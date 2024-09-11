@@ -40,10 +40,12 @@ ClientNode::ClientNode(const rclcpp::NodeOptions & options)
   // defaults declared in header
   declare_parameter("lift_name", client_node_config.lift_name);
   declare_parameter("lift_state_topic", client_node_config.lift_state_topic);
+  declare_parameter("register_lift_topic", client_node_config.register_lift_topic);
   declare_parameter("lift_trigger_server_name", client_node_config.lift_trigger_server_name);
   declare_parameter("dds_domain", client_node_config.dds_domain);
   declare_parameter("dds_state_topic", client_node_config.dds_state_topic);
   declare_parameter("dds_lift_request_topic", client_node_config.dds_lift_request_topic);
+  declare_parameter("dds_register_request_topic", client_node_config.dds_register_request_topic);
   declare_parameter("wait_timeout", client_node_config.wait_timeout);
   declare_parameter("update_frequency", client_node_config.update_frequency);
   declare_parameter("publish_frequency", client_node_config.publish_frequency);
@@ -51,10 +53,12 @@ ClientNode::ClientNode(const rclcpp::NodeOptions & options)
   // getting new values for parameters or keep defaults
   get_parameter("lift_name", client_node_config.lift_name);
   get_parameter("lift_state_topic", client_node_config.lift_state_topic);
+  get_parameter("register_lift_topic", client_node_config.register_lift_topic);
   get_parameter("lift_trigger_server_name", client_node_config.lift_trigger_server_name);
   get_parameter("dds_domain", client_node_config.dds_domain);
   get_parameter("dds_state_topic", client_node_config.dds_state_topic);
   get_parameter("dds_lift_request_topic", client_node_config.dds_lift_request_topic);
+  get_parameter("dds_register_request_topic", client_node_config.dds_register_request_topic);
   get_parameter("wait_timeout", client_node_config.wait_timeout);
   get_parameter("update_frequency", client_node_config.update_frequency);
   get_parameter("publish_frequency", client_node_config.publish_frequency);
@@ -101,9 +105,14 @@ void ClientNode::start(Fields _fields)
 {
   fields = std::move(_fields);
 
+  // Subcribers:
   lift_state_sub = create_subscription<ldm_fleet_msgs::msg::LiftState>(
     client_node_config.lift_state_topic, rclcpp::SensorDataQoS().keep_last(1),
     std::bind(&ClientNode::lift_state_callback_fn, this, std::placeholders::_1));
+
+  // Publishers:
+  register_req_pub = create_publisher<ldm_fleet_msgs::msg::RegisterRequest>(
+    client_node_config.register_lift_topic, 10);
 
   request_error = false;
 
@@ -144,6 +153,7 @@ messages::LiftState ClientNode::get_lift_state()
     liftState.door_state = current_lift_state.door_state;
     liftState.motion_state = current_lift_state.motion_state;
     liftState.current_mode = current_lift_state.current_mode;
+    liftState.register_state = current_lift_state.register_state;
   }
   return liftState;
 }
@@ -165,7 +175,7 @@ void ClientNode::publish_lift_state()
   new_lift_state.door_state = liftState.door_state;
   new_lift_state.motion_state = liftState.motion_state;
   new_lift_state.current_mode = liftState.current_mode;
-
+  new_lift_state.register_state = liftState.register_state;
 
   if (!fields.client->send_lift_state(new_lift_state)) {
     RCLCPP_WARN(get_logger(), "failed to send lift state");
@@ -246,9 +256,45 @@ bool ClientNode::read_lift_request()
   return false;
 }
 
+bool ClientNode::read_register_request()
+{
+  messages::RegisterRequest register_request;
+  if (fields.client->read_register_request(register_request) &&
+      is_valid_request(
+          register_request.device_name,
+          register_request.request_id))
+  {
+    if ((register_request.register_mode == messages::RegisterRequest::REGISTER_RELEASED) ||
+        (register_request.register_mode == messages::RegisterRequest::REGISTER_SIGNED)) {
+      auto msg = ldm_fleet_msgs::msg::RegisterRequest();
+      msg.device_name = register_request.device_name;
+      msg.device_type = register_request.device_type;
+      msg.register_mode = register_request.register_mode;
+      if (register_request.register_mode == messages::RegisterRequest::REGISTER_RELEASED) {
+        RCLCPP_INFO(get_logger(),"Publish register request: %s - RELEASED", register_request.device_name.c_str());
+      } else if (register_request.register_mode == messages::RegisterRequest::REGISTER_SIGNED)
+      {
+        RCLCPP_INFO(get_logger(),"Publish register request: %s - SIGNED", register_request.device_name.c_str());
+      }
+      register_req_pub->publish(msg);
+    } else {
+      RCLCPP_ERROR(get_logger(), "received an INVALID/UNSUPPORTED command (register_mode: %d).",
+        register_request.register_mode);
+      request_error = true;
+    }
+
+    WriteLock request_id_lock(request_id_mutex);
+    current_request_id = register_request.request_id;
+
+    return true;
+  }
+  return false;
+}
+
 void ClientNode::read_requests()
 {
-  if (read_lift_request())
+  if (read_register_request() ||
+      read_lift_request())
   {
     return;
   }

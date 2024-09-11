@@ -13,6 +13,7 @@ lift_info:
   bit:
     door_trigger: 'M318'
     lift_trigger: 'M319'
+    lift_register: 'M331'
 
   floors:
     L1: 1

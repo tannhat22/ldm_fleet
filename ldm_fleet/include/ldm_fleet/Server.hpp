@@ -23,8 +23,9 @@
 
 #include <ldm_fleet/ServerConfig.hpp>
 
-#include <ldm_fleet/messages/LiftState.hpp>
 #include <ldm_fleet/messages/LiftRequest.hpp>
+#include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 
 namespace ldm_fleet {
 
@@ -60,6 +61,15 @@ public:
   /// \return
   ///   True if the lift request was successfully sent, false otherwise.
   bool send_lift_request(const messages::LiftRequest& lift_request);
+
+  /// Attempts to send a new register request to all the clients. Clients are in
+  /// charge to identify if requests are targetted towards them.
+  /// 
+  /// \param[in] register_request
+  ///   New register request to be sent out to the clients.
+  /// \return
+  ///   True if the register request was successfully sent, false otherwise.
+  bool send_register_request(const messages::RegisterRequest& register_request);
 
   /// Destructor
   ~Server();

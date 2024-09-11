@@ -15,6 +15,7 @@ if (ament_cmake_FOUND)
   install(
     PROGRAMS 
     scripts/send_lift_request.py
+    scripts/send_register_request.py
     DESTINATION lib/${PROJECT_NAME}
   )
 

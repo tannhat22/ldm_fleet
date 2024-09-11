@@ -22,8 +22,10 @@
 
 #include <ldm_fleet/ClientConfig.hpp>
 
-#include <ldm_fleet/messages/LiftState.hpp>
 #include <ldm_fleet/messages/LiftRequest.hpp>
+#include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
+
 
 namespace ldm_fleet {
 
@@ -51,7 +53,7 @@ public:
   ///   True if lift state was successfully sent, false otherwise.
   bool send_lift_state(const messages::LiftState& new_lift_state);
 
-  /// Attempts to read and receive a new ldm request from the ldm fleet
+  /// Attempts to read and receive a new lift request from the ldm fleet
   /// server, for commanding the ldm client.
   ///
   /// \param[out] lift_request
@@ -60,6 +62,16 @@ public:
   /// \return
   ///   True if a new lift request was received, false otherwise.
   bool read_lift_request(messages::LiftRequest& lift_request);
+
+  /// Attempts to read and receive a new register request from the ldm fleet
+  /// server, for commanding the ldm client.
+  ///
+  /// \param[out] register_request
+  ///   Newly received register_register request from the ldm fleet server, to be
+  ///   handled by the ldm client.
+  /// \return
+  ///   True if a new register request was received, false otherwise.
+  bool read_register_request(messages::RegisterRequest& register_request);
 
   /// Destructor
   ~Client();

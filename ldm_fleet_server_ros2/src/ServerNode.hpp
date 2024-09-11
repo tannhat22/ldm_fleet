@@ -30,10 +30,12 @@
 #include <ldm_fleet_msgs/msg/fleet_lift_state.hpp>
 #include <ldm_fleet_msgs/msg/lift_request.hpp>
 #include <ldm_fleet_msgs/msg/lift_state.hpp>
+#include <ldm_fleet_msgs/msg/register_request.hpp>
 
 #include <ldm_fleet/Server.hpp>
 #include <ldm_fleet/messages/LiftRequest.hpp>
 #include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 
 #include "ServerNodeConfig.hpp"
 
@@ -77,6 +79,13 @@ private:
       lift_request_sub;
 
   void handle_lift_request(ldm_fleet_msgs::msg::LiftRequest::UniquePtr msg);
+
+  // --------------------------------------------------------------------------
+
+  rclcpp::Subscription<ldm_fleet_msgs::msg::RegisterRequest>::SharedPtr
+      register_request_sub;
+
+  void handle_register_request(ldm_fleet_msgs::msg::RegisterRequest::UniquePtr msg);
 
   // --------------------------------------------------------------------------
 

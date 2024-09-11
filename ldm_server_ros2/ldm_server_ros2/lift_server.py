@@ -7,6 +7,7 @@ from rclpy.node import Node
 from .mcprotocol.type1e import Type1E
 
 from ldm_fleet_msgs.srv import Lift
+from ldm_fleet_msgs.msg import RegisterRequest
 
 
 class LiftService(Node):
@@ -43,6 +44,7 @@ class LiftService(Node):
         # Bits:
         self.door_trigger_bit = self.config_yaml["bit"]["door_trigger"]
         self.lift_trigger_bit = self.config_yaml["bit"]["lift_trigger"]
+        self.lift_register_bit = self.config_yaml["bit"]["lift_register"]
 
         ## Registers:
         # Lift data
@@ -64,6 +66,12 @@ class LiftService(Node):
         self.srv = self.create_service(Lift, "lift_server", self.lift_callback)
 
         # Publishers:
+
+        # Subcribers:
+        self.register_lift_sub = self.create_subscription(
+            RegisterRequest, "register_lift", self.register_lift_callback, 10
+        )
+
         self.get_logger().info("is running!!!!!!!!!!")
 
     def lift_callback(self, request: Lift.Request, response: Lift.Response):
@@ -150,6 +158,16 @@ class LiftService(Node):
             response.success = False
             response.message = "error undefined!"
             return response
+
+    def register_lift_callback(self, msg: RegisterRequest):
+        self.get_logger().info(
+            f"Get request register LIFT with register_mode: {msg.register_mode}"
+        )
+        if msg.register_mode == RegisterRequest.REGISTER_RELEASED:
+            self.pyPLC.batchwrite_bitunits(self.lift_register_bit, [0])
+        elif msg.register_mode == RegisterRequest.REGISTER_SIGNED:
+            self.pyPLC.batchwrite_bitunits(self.lift_register_bit, [1])
+        return
 
 
 def main(argv=sys.argv):

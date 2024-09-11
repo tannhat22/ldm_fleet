@@ -28,6 +28,7 @@ class LiftStateUpdate(Node):
 
         # ------ Address all device -------:
         # Bits:
+        self.lift_register_bit = self.config_yaml["bit"]["lift_register"]
 
         ## Registers:
         # Lift data
@@ -50,6 +51,7 @@ class LiftStateUpdate(Node):
     def timer_callback(self):
         liftStateMsg = LiftState()
         liftData = self.pyPLC.batchread_wordunits(self.lift_data_reg, 6)
+        registerState = self.pyPLC.batchread_bitunits(self.lift_register_bit, 1)[0]
 
         # 0
         if liftData[0] == 1:
@@ -70,6 +72,12 @@ class LiftStateUpdate(Node):
             liftStateMsg.current_mode = LiftState.MODE_EMERGENCY
         else:
             liftStateMsg.current_mode = LiftState.MODE_UNKNOWN
+
+        # register_bit
+        if registerState:
+            liftStateMsg.register_state = LiftState.REGISTER_SIGNED
+        else:
+            liftStateMsg.register_state = LiftState.REGISTER_RELEASED
 
         self.liftStatePub.publish(liftStateMsg)
 

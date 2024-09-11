@@ -50,14 +50,22 @@ Server::SharedPtr Server::make(const ServerConfig& _config)
               participant, &LdmFleetData_LiftRequest_desc,
               _config.dds_lift_request_topic));
 
+  dds::DDSPublishHandler<LdmFleetData_RegisterRequest>::SharedPtr 
+      register_request_pub(
+          new dds::DDSPublishHandler<LdmFleetData_RegisterRequest>(
+              participant, &LdmFleetData_RegisterRequest_desc,
+              _config.dds_register_request_topic));
+
   if (!state_sub->is_ready() ||
-      !lift_request_pub->is_ready())
+      !lift_request_pub->is_ready() ||
+      !register_request_pub->is_ready())
     return nullptr;
 
   server->impl->start(ServerImpl::Fields{
       std::move(participant),
       std::move(state_sub),
-      std::move(lift_request_pub)});
+      std::move(lift_request_pub),
+      std::move(register_request_pub)});
   return server;
 }
 
@@ -78,6 +86,11 @@ bool Server::read_lift_states(
 bool Server::send_lift_request(const messages::LiftRequest& _lift_request)
 {
   return impl->send_lift_request(_lift_request);
+}
+
+bool Server::send_register_request(const messages::RegisterRequest& _register_request)
+{
+  return impl->send_register_request(_register_request);
 }
 
 } // namespace ldm_fleet

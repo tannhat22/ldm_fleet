@@ -66,4 +66,14 @@ bool Server::ServerImpl::send_lift_request(
   return sent;
 }
 
+bool Server::ServerImpl::send_register_request(
+    const messages::RegisterRequest& _register_request)
+{
+  LdmFleetData_RegisterRequest* new_mr = LdmFleetData_RegisterRequest__alloc();
+  convert(_register_request, *new_mr);
+  bool sent = fields.register_request_pub->write(new_mr);
+  LdmFleetData_RegisterRequest_free(new_mr, DDS_FREE_ALL);
+  return sent;
+}
+
 } // namespace ldm_fleet

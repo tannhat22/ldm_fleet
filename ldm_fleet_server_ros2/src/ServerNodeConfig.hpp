@@ -29,10 +29,12 @@ struct ServerNodeConfig
 {
   std::string fleet_state_topic = "fleet_ldm_state";
   std::string lift_request_topic = "lift_ldm_request";
+  std::string register_request_topic = "register_ldm_request";
 
   int dds_domain = 52;
   std::string dds_lift_state_topic = "lift_state";
   std::string dds_lift_request_topic = "lift_request";
+  std::string dds_register_request_topic = "register_request";
 
   double update_state_frequency = 10.0;
   double publish_state_frequency = 1.0;

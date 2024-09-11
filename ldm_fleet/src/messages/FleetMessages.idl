@@ -23,6 +23,15 @@ module LdmFleetData
     const unsigned long MODE_FIRE = 3;
     const unsigned long MODE_OFFLINE = 4;
     const unsigned long MODE_EMERGENCY = 5;
+    const unsigned long REGISTER_RELEASED = 0;
+    const unsigned long REGISTER_SIGNED = 1;
+  };
+  module RegisterRequest_Constants
+  {
+    const unsigned long DEVICE_DOOR = 0;
+    const unsigned long DEVICE_LIFT = 1;
+    const unsigned long REGISTER_RELEASED = 0;
+    const unsigned long REGISTER_SIGNED = 1;
   };
   struct LiftRequest
   {
@@ -39,6 +48,14 @@ module LdmFleetData
     unsigned long door_state;
     unsigned long motion_state;
     unsigned long current_mode;
+    unsigned long register_state;
     string request_id;
+  };
+  struct RegisterRequest
+  {
+    string request_id;
+    string device_name;
+    unsigned long device_type;
+    unsigned long register_mode;
   };
 };

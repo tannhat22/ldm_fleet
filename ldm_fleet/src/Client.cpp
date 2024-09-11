@@ -50,14 +50,23 @@ Client::SharedPtr Client::make(const ClientConfig& _config)
               participant, &LdmFleetData_LiftRequest_desc,
               _config.dds_lift_request_topic));
 
+  dds::DDSSubscribeHandler<LdmFleetData_RegisterRequest>::SharedPtr 
+      register_request_sub(
+          new dds::DDSSubscribeHandler<LdmFleetData_RegisterRequest>(
+              participant, &LdmFleetData_RegisterRequest_desc,
+              _config.dds_register_request_topic));
+
   if (!state_pub->is_ready() ||
-      !lift_request_sub->is_ready())
+      !lift_request_sub->is_ready() ||
+      !register_request_sub->is_ready())
     return nullptr;
 
   client->impl->start(ClientImpl::Fields{
       std::move(participant),
       std::move(state_pub),
-      std::move(lift_request_sub)});
+      std::move(lift_request_sub),
+      std::move(register_request_sub)});
+      
   return client;
 }
 
@@ -79,5 +88,9 @@ bool Client::read_lift_request(messages::LiftRequest& _lift_request)
   return impl->read_lift_request(_lift_request);
 }
 
+bool Client::read_register_request(messages::RegisterRequest& _register_request)
+{
+  return impl->read_register_request(_register_request);
+}
 
 } // namespace ldm_fleet

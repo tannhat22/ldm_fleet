@@ -33,6 +33,16 @@ void to_ldmf_message(
   _out_msg.door_state = _in_msg.door_state;
 }
 
+void to_ldmf_message(
+    const ldm_fleet_msgs::msg::RegisterRequest& _in_msg, 
+    messages::RegisterRequest& _out_msg)
+{
+  _out_msg.request_id = _in_msg.request_id;
+  _out_msg.device_name = _in_msg.device_name;
+  _out_msg.device_type = _in_msg.device_type;
+  _out_msg.register_mode = _in_msg.register_mode;
+}
+
 void to_ros_message(
     const messages::LiftState& _in_msg,
     ldm_fleet_msgs::msg::LiftState& _out_msg)
@@ -42,6 +52,7 @@ void to_ros_message(
   _out_msg.door_state = _in_msg.door_state;
   _out_msg.motion_state = _in_msg.motion_state;
   _out_msg.current_mode = _in_msg.current_mode;
+  _out_msg.register_state = _in_msg.register_state;
   _out_msg.request_id = _in_msg.request_id;
 }
 

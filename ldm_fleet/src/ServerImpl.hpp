@@ -20,6 +20,7 @@
 
 #include <ldm_fleet/messages/LiftRequest.hpp>
 #include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 #include <ldm_fleet/Server.hpp>
 #include <ldm_fleet/ServerConfig.hpp>
 
@@ -48,6 +49,10 @@ public:
     /// DDS publisher for lift requests to be sent to clients
     dds::DDSPublishHandler<LdmFleetData_LiftRequest>::SharedPtr
         lift_request_pub;
+
+    /// DDS publisher for register requests to be sent to clients
+    dds::DDSPublishHandler<LdmFleetData_RegisterRequest>::SharedPtr
+        register_request_pub;
   };
 
   ServerImpl(const ServerConfig& config);
@@ -59,6 +64,9 @@ public:
   bool read_lift_states(std::vector<messages::LiftState>& new_lift_states);
 
   bool send_lift_request(const messages::LiftRequest& lift_request);
+  
+  bool send_register_request(const messages::RegisterRequest& register_request);
+
 
 private:
 

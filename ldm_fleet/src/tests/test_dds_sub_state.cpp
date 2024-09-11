@@ -113,7 +113,13 @@ int main(int argc, char** argv)
       else if (msg->door_state == LdmFleetData_LiftState_Constants_MODE_OFFLINE)
         std::cout << "OFFLINE" << std::endl;  
       else if (msg->door_state == LdmFleetData_LiftState_Constants_MODE_EMERGENCY)
-        std::cout << "EMERGENCY" << std::endl;           
+        std::cout << "EMERGENCY" << std::endl;
+
+      std::cout << "register_state: ";
+      if (msg->register_state == LdmFleetData_LiftState_Constants_REGISTER_RELEASED)
+        std::cout << "RELEASED" << std::endl;
+      else if (msg->register_state == LdmFleetData_LiftState_Constants_REGISTER_SIGNED)
+        std::cout << "SIGNED" << std::endl;          
       //break;
     }
     else

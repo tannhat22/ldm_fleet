@@ -35,11 +35,13 @@ void ServerNodeConfig::print_config() const
   printf("  TOPICS\n");
   printf("    fleet state: %s\n", fleet_state_topic.c_str());
   printf("    lift request: %s\n", lift_request_topic.c_str());
+  printf("    register request: %s\n", register_request_topic.c_str());
   printf("LDM SERVER-CLIENT DDS CONFIGURATION\n");
   printf("  dds domain: %d\n", dds_domain);
   printf("  TOPICS\n");
   printf("    lift state: %s\n", dds_lift_state_topic.c_str());
   printf("    lift request: %s\n", dds_lift_request_topic.c_str());
+  printf("    register request: %s\n", dds_register_request_topic.c_str());
 }
 
 ServerConfig ServerNodeConfig::get_server_config() const

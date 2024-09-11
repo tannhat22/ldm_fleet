@@ -57,7 +57,7 @@
                 "/usr/include/**",
                 "${workspaceFolder}/ldm_fleet/include",
                 "/home/amrserver/rmf_ws/install/**",
-                "/home/amrserver/rmf_ws/install/ldm_fleet_msgs/include/ldm_fleet_msgs",
+                "/home/tannhat/rmf_ws/install/ldm_fleet_msgs/include/ldm_fleet_msgs",
                 "${workspaceFolder}/ldm_fleet_client_ros2/include"
             ],
             "name": "ROS",

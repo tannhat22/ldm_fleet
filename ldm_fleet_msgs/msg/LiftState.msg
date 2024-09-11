@@ -21,5 +21,9 @@ uint8 MODE_FIRE=3
 uint8 MODE_OFFLINE=4
 uint8 MODE_EMERGENCY=5
 
+uint8 register_state
+uint8 REGISTER_RELEASED=0
+uint8 REGISTER_SIGNED=1
+
 string request_id
 

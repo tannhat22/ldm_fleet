@@ -28,11 +28,13 @@
 #include <rclcpp/rclcpp.hpp>
 #include <ldm_fleet_msgs/srv/lift.hpp>
 #include <ldm_fleet_msgs/msg/lift_state.hpp>
+#include <ldm_fleet_msgs/msg/register_request.hpp>
 
 #include <ldm_fleet/Client.hpp>
 #include <ldm_fleet/ClientConfig.hpp>
 #include <ldm_fleet/messages/LiftState.hpp>
 #include <ldm_fleet/messages/LiftRequest.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 
 #include <ldm_fleet/Client.hpp>
 
@@ -75,7 +77,8 @@ private:
   void lift_state_callback_fn(const ldm_fleet_msgs::msg::LiftState::SharedPtr msg);
 
   // --------------------------------------------------------------------------
-  // Mode handling
+  // Publisher:
+  rclcpp::Publisher<ldm_fleet_msgs::msg::RegisterRequest>::SharedPtr register_req_pub;
 
   // TODO: conditions to trigger emergency, however this is most likely for
   // indicating emergency within the fleet and not in RMF
@@ -84,6 +87,8 @@ private:
 
   messages::LiftState get_lift_state();
   bool read_lift_request();
+  
+  bool read_register_request();
 
   // Request handling
 

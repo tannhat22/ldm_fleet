@@ -31,6 +31,7 @@ struct ClientConfig
 
   // Server request -> client:
   std::string dds_lift_request_topic = "lift_request";
+  std::string dds_register_request_topic = "register_request";
 
   void print_config() const;
 };

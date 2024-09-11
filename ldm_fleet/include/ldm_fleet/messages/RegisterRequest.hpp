@@ -15,20 +15,29 @@
  *
  */
 
-#include <ldm_fleet/ServerConfig.hpp>
+#ifndef LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__REGISTERREQUEST_HPP
+#define LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__REGISTERREQUEST_HPP
 
-#include <cstdio>
+#include <string>
 
 namespace ldm_fleet {
+namespace messages {
 
-void ServerConfig::print_config() const
+struct RegisterRequest
 {
-  printf("SERVER-CLIENT DDS CONFIGURATION\n");
-  printf("  dds domain: %d\n", dds_domain);
-  printf("  TOPICS\n");
-  printf("    lift state: %s\n", dds_state_topic.c_str());
-  printf("    lift request: %s\n", dds_lift_request_topic.c_str());
-  printf("    register request: %s\n", dds_register_request_topic.c_str());
-}
+  std::string request_id;
+  std::string device_name;
 
+  uint32_t device_type;
+  static const uint32_t DEVICE_DOOR = 0;
+  static const uint32_t DEVICE_LIFT = 1;
+
+  uint32_t register_mode;
+  static const uint32_t REGISTER_RELEASED = 0;
+  static const uint32_t REGISTER_SIGNED = 1;
+};
+
+} // namespace messages
 } // namespace ldm_fleet
+
+#endif // LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__REGISTERREQUEST_HPP

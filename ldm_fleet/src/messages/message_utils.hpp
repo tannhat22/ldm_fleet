@@ -20,6 +20,7 @@
 
 #include <ldm_fleet/messages/LiftRequest.hpp>
 #include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 
 #include "FleetMessages.h"
 
@@ -33,6 +34,10 @@ void convert(const LdmFleetData_LiftRequest& _input, LiftRequest& _output);
 void convert(const LiftState& _input, LdmFleetData_LiftState& _output);
 
 void convert(const LdmFleetData_LiftState& _input, LiftState& _output);
+
+void convert(const RegisterRequest& _input, LdmFleetData_RegisterRequest& _output);
+
+void convert(const LdmFleetData_RegisterRequest& _input, RegisterRequest& _output);
 
 } // namespace 
 } // namespace ldm_fleet

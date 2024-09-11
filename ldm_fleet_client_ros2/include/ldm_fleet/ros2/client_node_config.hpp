@@ -33,14 +33,15 @@ struct ClientNodeConfig
 {
 
   std::string lift_name = "lift_name";
-  // std::string fleet_name = "fleet_name";
 
   std::string lift_state_topic = "/lift_state";
+  std::string register_lift_topic = "/register_lift";
   std::string lift_trigger_server_name = "lift_server";
 
   int dds_domain = 52;
   std::string dds_state_topic = "lift_state";
   std::string dds_lift_request_topic = "lift_request";
+  std::string dds_register_request_topic = "register_request";
 
   double wait_timeout = 10.0;
   double update_frequency = 10.0;

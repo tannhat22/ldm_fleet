@@ -33,12 +33,14 @@ void ClientNodeConfig::print_config() const
   printf("  update request frequency: %.1f\n", update_frequency);
   printf("  publish state frequency: %.1f\n", publish_frequency);
   printf("  TOPICS\n");
+  printf("    register lift topic: %s\n", register_lift_topic.c_str());
   printf("    lifting trigger server: %s\n", lift_trigger_server_name.c_str());
   printf("CLIENT-SERVER DDS CONFIGURATION\n");
   printf("  dds domain: %d\n", dds_domain);
   printf("  TOPICS\n");
   printf("    lift state: %s\n", dds_state_topic.c_str());
   printf("    lift request: %s\n", dds_lift_request_topic.c_str());
+  printf("    register request: %s\n", dds_register_request_topic.c_str());
 }
   
 ClientConfig ClientNodeConfig::get_client_config() const
@@ -47,6 +49,7 @@ ClientConfig ClientNodeConfig::get_client_config() const
   client_config.dds_domain = dds_domain;
   client_config.dds_state_topic = dds_state_topic;
   client_config.dds_lift_request_topic = dds_lift_request_topic;
+  client_config.dds_register_request_topic = dds_register_request_topic;
   return client_config;
 }
 

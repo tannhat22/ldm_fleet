@@ -42,6 +42,7 @@ target_link_libraries(ldm_fleet
 
 set(testing_targets
   test_dds_pub_lift_request
+  test_dds_pub_register_request
   test_dds_sub_state
 )
 

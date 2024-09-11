@@ -24,6 +24,7 @@
 
 #include <ldm_fleet/messages/LiftRequest.hpp>
 #include <ldm_fleet/messages/LiftState.hpp>
+#include <ldm_fleet/messages/RegisterRequest.hpp>
 
 
 #include "utilities.hpp"
@@ -99,9 +100,11 @@ void ServerNode::setup_config()
 {
   get_parameter("fleet_state_topic", server_node_config.fleet_state_topic);
   get_parameter("lift_request_topic", server_node_config.lift_request_topic);
+  get_parameter("register_request_topic", server_node_config.register_request_topic);
   get_parameter("dds_domain", server_node_config.dds_domain);
   get_parameter("dds_lift_state_topic", server_node_config.dds_lift_state_topic);
   get_parameter("dds_lift_request_topic", server_node_config.dds_lift_request_topic);
+  get_parameter("dds_register_request_topic", server_node_config.dds_register_request_topic);
   get_parameter("update_state_frequency", server_node_config.update_state_frequency);
   get_parameter("publish_state_frequency", server_node_config.publish_state_frequency);
 }
@@ -168,6 +171,22 @@ void ServerNode::start(Fields _fields)
       lift_request_sub_opt);
 
   // --------------------------------------------------------------------------
+  // Register request handling
+
+  auto register_request_sub_opt = rclcpp::SubscriptionOptions();
+
+  register_request_sub_opt.callback_group = fleet_state_pub_callback_group;
+
+  register_request_sub = create_subscription<ldm_fleet_msgs::msg::RegisterRequest>(
+      server_node_config.register_request_topic, rclcpp::QoS(10),
+      [&](ldm_fleet_msgs::msg::RegisterRequest::UniquePtr msg)
+      {
+        handle_register_request(std::move(msg));
+      },
+      register_request_sub_opt);
+
+  // --------------------------------------------------------------------------
+
 }
 
 bool ServerNode::is_request_valid( const std::string& _lift_name)
@@ -188,6 +207,14 @@ void ServerNode::handle_lift_request(
   messages::LiftRequest ldmf_msg;
   to_ldmf_message(*(_msg.get()), ldmf_msg);
   fields.server->send_lift_request(ldmf_msg);
+}
+
+void ServerNode::handle_register_request(
+    ldm_fleet_msgs::msg::RegisterRequest::UniquePtr _msg)
+{
+  messages::RegisterRequest ldmf_msg;
+  to_ldmf_message(*(_msg.get()), ldmf_msg);
+  fields.server->send_register_request(ldmf_msg);
 }
 
 void ServerNode::update_state_callback()
@@ -230,6 +257,7 @@ void ServerNode::publish_fleet_state()
     rmf_frame_ldms.door_state = fleet_frame_rs.door_state;
     rmf_frame_ldms.motion_state = fleet_frame_rs.motion_state;
     rmf_frame_ldms.current_mode = fleet_frame_rs.current_mode;
+    rmf_frame_ldms.register_state = fleet_frame_rs.register_state;
     rmf_frame_ldms.request_id = fleet_frame_rs.request_id;
     fleet_state.lifts.push_back(rmf_frame_ldms);
   }

@@ -60,4 +60,16 @@ bool Client::ClientImpl::read_lift_request
   return false;
 }
 
+bool Client::ClientImpl::read_register_request
+    (messages::RegisterRequest& _register_request)
+{
+  auto register_requests = fields.register_request_sub->read();
+  if (!register_requests.empty())
+  {
+    convert(*(register_requests[0]), _register_request);
+    return true;
+  }
+  return false;
+}
+
 } // namespace ldm_fleet
