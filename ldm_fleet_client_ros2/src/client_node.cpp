@@ -145,16 +145,16 @@ messages::LiftState ClientNode::get_lift_state()
   messages::LiftState liftState;
 
   /// Checks if lift has just received a request that causes an adapter error
+  ReadLock ldm_state_lock(ldm_state_mutex);
   if (request_error) {
     liftState.current_mode = messages::LiftState::MODE_UNKNOWN;
   } else {
-    ReadLock ldm_state_lock(ldm_state_mutex);
-    liftState.current_floor = current_lift_state.current_floor;
-    liftState.door_state = current_lift_state.door_state;
-    liftState.motion_state = current_lift_state.motion_state;
     liftState.current_mode = current_lift_state.current_mode;
-    liftState.register_state = current_lift_state.register_state;
   }
+  liftState.current_floor = current_lift_state.current_floor;
+  liftState.door_state = current_lift_state.door_state;
+  liftState.motion_state = current_lift_state.motion_state;
+  liftState.register_state = current_lift_state.register_state;
   return liftState;
 }
 
