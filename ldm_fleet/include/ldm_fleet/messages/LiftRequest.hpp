@@ -19,6 +19,7 @@
 #define LDM_FLEET__INCLUDE__LDM_FLEET__MESSAGES__LIFTREQUEST_HPP
 
 #include <string>
+#include <cstdint>
 
 namespace ldm_fleet {
 namespace messages {
