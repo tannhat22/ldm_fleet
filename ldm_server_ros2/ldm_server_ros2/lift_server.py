@@ -102,12 +102,8 @@ class LiftService(Node):
                 process_state = 1
                 startTime = self.get_clock().now()
                 while process_state:
-                    process_state = self.pyPLC.batchread_bitunits(
-                        self.lift_trigger_bit, 1
-                    )[0]
-                    durationTime = (self.get_clock().now() - startTime).nanoseconds * (
-                        10 ** (-9)
-                    )
+                    process_state = self.pyPLC.batchread_bitunits(self.lift_trigger_bit, 1)[0]
+                    durationTime = (self.get_clock().now() - startTime).nanoseconds * (10 ** (-9))
                     if durationTime >= self.timeout:
                         self.get_logger().error(f"Timeout lift reaches!")
                         response.success = False
@@ -123,14 +119,10 @@ class LiftService(Node):
             # Đã có lệnh điều khiển đóng/mở cửa, sẽ đợi lệnh này hoàn tất mới tiếp tục xử lý:
             startTime = self.get_clock().now()
             while currentDoorState == 3:
-                self.get_logger().warn(
-                    f"Door is controlling, will waiting last process finished!"
-                )
+                self.get_logger().warn(f"Door is controlling, will waiting last process finished!")
                 liftData = self.pyPLC.batchread_wordunits(self.lift_data_reg, 6)
                 currentDoorState = liftData[0]
-                durationTime = (self.get_clock().now() - startTime).nanoseconds * (
-                    10 ** (-9)
-                )
+                durationTime = (self.get_clock().now() - startTime).nanoseconds * (10 ** (-9))
                 if durationTime >= 300.0:
                     self.get_logger().error(f"Timeout waiting to control door reaches!")
                     response.success = False
@@ -139,13 +131,9 @@ class LiftService(Node):
                 time.sleep(0.5)
 
             door_control = 0
-            if (request.door_state == Lift.Request.DOOR_OPEN) and (
-                currentDoorState == 1
-            ):
+            if (request.door_state == Lift.Request.DOOR_OPEN) and (currentDoorState == 1):
                 door_control = 1
-            elif (request.door_state == Lift.Request.DOOR_CLOSED) and (
-                currentDoorState == 2
-            ):
+            elif (request.door_state == Lift.Request.DOOR_CLOSED) and (currentDoorState == 2):
                 door_control = 2
 
             if door_control != 0:
@@ -154,12 +142,8 @@ class LiftService(Node):
                 process_state = 1
                 startTime = self.get_clock().now()
                 while process_state:
-                    process_state = self.pyPLC.batchread_bitunits(
-                        self.door_trigger_bit, 1
-                    )[0]
-                    durationTime = (self.get_clock().now() - startTime).nanoseconds * (
-                        10 ** (-9)
-                    )
+                    process_state = self.pyPLC.batchread_bitunits(self.door_trigger_bit, 1)[0]
+                    durationTime = (self.get_clock().now() - startTime).nanoseconds * (10 ** (-9))
                     if durationTime >= self.timeout:
                         self.get_logger().error(f"Timeout door reaches!")
                         response.success = False
@@ -179,9 +163,7 @@ class LiftService(Node):
             return response
 
     def register_lift_callback(self, msg: RegisterRequest):
-        self.get_logger().info(
-            f"Get request register LIFT with register_mode: {msg.register_mode}"
-        )
+        self.get_logger().info(f"Get request register LIFT with register_mode: {msg.register_mode}")
         if msg.register_mode == RegisterRequest.REGISTER_RELEASED:
             self.pyPLC.batchwrite_bitunits(self.lift_register_bit, [0])
         elif msg.register_mode == RegisterRequest.REGISTER_SIGNED:
