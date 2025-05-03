@@ -69,19 +69,28 @@ class LiftService(Node):
 
         # Subcribers:
         self.register_lift_sub = self.create_subscription(
-            RegisterRequest, "register_lift", self.register_lift_callback, 10
+            RegisterRequest, "register_lift", self.register_lift_callback, 1
         )
 
         self.get_logger().info("is running!!!!!!!!!!")
 
     def lift_callback(self, request: Lift.Request, response: Lift.Response):
         try:
+            if not self.pyPLC.batchread_bitunits(self.lift_register_bit, 1)[0]:
+                self.get_logger().warn(
+                    "Get request LIFT but it is not registered, ignore this request!"
+                )
+                response.message = "Lift is not registered!"
+                response.success = False
+                return response
+
             self.get_logger().info(
                 f"Get request LIFT:\n"
                 f"  request_types: {request.request_types}\n"
                 f"  des_floor: {request.destination_floor}\n"
                 f"  door_state: {request.door_state}"
             )
+
             try:
                 numFloor = self.config_yaml["floors"][request.destination_floor]
             except Exception as e:
