@@ -43,6 +43,8 @@ module LdmFleetData
   };
   struct LiftState
   {
+    long sec;
+    unsigned long nanosec;
     string lift_name;
     string current_floor;
     unsigned long door_state;

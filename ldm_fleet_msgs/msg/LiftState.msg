@@ -1,3 +1,6 @@
+# lift_time records when the information in this message was generated
+builtin_interfaces/Time lift_time
+
 string lift_name
 
 string current_floor

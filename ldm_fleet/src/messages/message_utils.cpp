@@ -46,6 +46,8 @@ void convert(const LdmFleetData_LiftRequest& _input, LiftRequest& _output)
 
 void convert(const LiftState& _input, LdmFleetData_LiftState& _output)
 {
+  _output.sec = _input.sec;
+  _output.nanosec = _input.nanosec;
   _output.lift_name = common::dds_string_alloc_and_copy(_input.lift_name);
   _output.current_floor = common::dds_string_alloc_and_copy(_input.current_floor);
   _output.door_state = _input.door_state;
@@ -57,6 +59,8 @@ void convert(const LiftState& _input, LdmFleetData_LiftState& _output)
 
 void convert(const LdmFleetData_LiftState& _input, LiftState& _output)
 {
+  _output.sec = _input.sec;
+  _output.nanosec = _input.nanosec;
   _output.lift_name = std::string(_input.lift_name);
   _output.current_floor = std::string(_input.current_floor);
   _output.door_state = _input.door_state;

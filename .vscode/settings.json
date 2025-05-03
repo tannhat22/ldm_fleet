@@ -146,5 +146,6 @@
         "variant": "cpp",
         "*.ipp": "cpp",
         "hash_map": "cpp"
-    }
+    },
+    "ros.distro": "jazzy"
 }

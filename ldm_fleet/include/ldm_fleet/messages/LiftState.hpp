@@ -27,6 +27,8 @@ namespace messages {
 
 struct LiftState
 {
+  int32_t sec;
+  uint32_t nanosec;
   std::string lift_name;
   std::string current_floor;
 

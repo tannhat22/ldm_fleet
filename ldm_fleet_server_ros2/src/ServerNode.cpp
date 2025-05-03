@@ -247,11 +247,11 @@ void ServerNode::publish_fleet_state()
   fleet_state.lifts.clear();
 
   ReadLock ldm_states_lock(ldm_states_mutex);
-  for (const auto it : lift_states)
+  for (const auto &it : lift_states)
   {
     const auto fleet_frame_rs = it.second;
     ldm_fleet_msgs::msg::LiftState rmf_frame_ldms;
-
+    rmf_frame_ldms.lift_time = fleet_frame_rs.lift_time;
     rmf_frame_ldms.lift_name = fleet_frame_rs.lift_name;
     rmf_frame_ldms.current_floor = fleet_frame_rs.current_floor;
     rmf_frame_ldms.door_state = fleet_frame_rs.door_state;

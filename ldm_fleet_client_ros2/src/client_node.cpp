@@ -160,7 +160,10 @@ messages::LiftState ClientNode::get_lift_state()
 
 void ClientNode::publish_lift_state()
 {
+  rclcpp::Time now = get_clock()->now();
   messages::LiftState new_lift_state;
+  new_lift_state.sec = static_cast<int32_t>(now.nanoseconds() / 1000000000);
+  new_lift_state.nanosec = static_cast<uint32_t>(now.nanoseconds() % 1000000000);
   new_lift_state.lift_name = client_node_config.lift_name;
 
   {

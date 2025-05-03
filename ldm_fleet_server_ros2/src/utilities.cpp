@@ -47,6 +47,8 @@ void to_ros_message(
     const messages::LiftState& _in_msg,
     ldm_fleet_msgs::msg::LiftState& _out_msg)
 {
+  _out_msg.lift_time.sec = _in_msg.sec;
+  _out_msg.lift_time.nanosec = _in_msg.nanosec;
   _out_msg.lift_name = _in_msg.lift_name;
   _out_msg.current_floor = _in_msg.current_floor;
   _out_msg.door_state = _in_msg.door_state;

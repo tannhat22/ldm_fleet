@@ -63,6 +63,8 @@ dds_sample_free ((d), &LdmFleetData_LiftRequest_desc, (o))
 
 typedef struct LdmFleetData_LiftState
 {
+  int32_t sec;
+  uint32_t nanosec;
   char * lift_name;
   char * current_floor;
   uint32_t door_state;

@@ -35,6 +35,8 @@ const dds_topic_descriptor_t LdmFleetData_LiftRequest_desc =
 
 static const uint32_t LdmFleetData_LiftState_ops [] =
 {
+  DDS_OP_ADR | DDS_OP_TYPE_4BY | DDS_OP_FLAG_SGN, offsetof (LdmFleetData_LiftState, sec),
+  DDS_OP_ADR | DDS_OP_TYPE_4BY, offsetof (LdmFleetData_LiftState, nanosec),
   DDS_OP_ADR | DDS_OP_TYPE_STR, offsetof (LdmFleetData_LiftState, lift_name),
   DDS_OP_ADR | DDS_OP_TYPE_STR, offsetof (LdmFleetData_LiftState, current_floor),
   DDS_OP_ADR | DDS_OP_TYPE_4BY, offsetof (LdmFleetData_LiftState, door_state),
@@ -53,9 +55,9 @@ const dds_topic_descriptor_t LdmFleetData_LiftState_desc =
   0u,
   "LdmFleetData::LiftState",
   NULL,
-  8,
+  10,
   LdmFleetData_LiftState_ops,
-  "<MetaData version=\"1.0.0\"><Module name=\"LdmFleetData\"><Struct name=\"LiftState\"><Member name=\"lift_name\"><String/></Member><Member name=\"current_floor\"><String/></Member><Member name=\"door_state\"><ULong/></Member><Member name=\"motion_state\"><ULong/></Member><Member name=\"current_mode\"><ULong/></Member><Member name=\"register_state\"><ULong/></Member><Member name=\"request_id\"><String/></Member></Struct></Module></MetaData>"
+  "<MetaData version=\"1.0.0\"><Module name=\"LdmFleetData\"><Struct name=\"LiftState\"><Member name=\"sec\"><Long/></Member><Member name=\"nanosec\"><ULong/></Member><Member name=\"lift_name\"><String/></Member><Member name=\"current_floor\"><String/></Member><Member name=\"door_state\"><ULong/></Member><Member name=\"motion_state\"><ULong/></Member><Member name=\"current_mode\"><ULong/></Member><Member name=\"register_state\"><ULong/></Member><Member name=\"request_id\"><String/></Member></Struct></Module></MetaData>"
 };
 
 
