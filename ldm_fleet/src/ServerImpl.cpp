@@ -45,12 +45,15 @@ bool Server::ServerImpl::read_lift_states(
   if (!lift_states.empty())
   {
     _new_lift_states.clear();
-    for (size_t i = 0; i < lift_states.size(); ++i)
-    {
-      messages::LiftState tmp_lift_state;
-      convert(*(lift_states[i]), tmp_lift_state);
-      _new_lift_states.push_back(tmp_lift_state);
-    }
+    // for (size_t i = 0; i < lift_states.size(); ++i)
+    // {
+    //   messages::LiftState tmp_lift_state;
+    //   convert(*(lift_states[i]), tmp_lift_state);
+    //   _new_lift_states.push_back(tmp_lift_state);
+    // }
+    messages::LiftState tmp_lift_state;
+    convert(*(lift_states[0]), tmp_lift_state);
+    _new_lift_states.push_back(tmp_lift_state);
     return true;
   }
   return false;
